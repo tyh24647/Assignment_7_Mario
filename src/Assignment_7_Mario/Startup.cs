@@ -11,28 +11,24 @@ using Assignment_7_Mario.Services;
 
 namespace Assignment_7_Mario {
     public class Startup {
-        public Startup(IHostingEnvironment env) {
-        }
+        public Startup(IHostingEnvironment env) { }
 
 
         public void ConfigureServices(IServiceCollection services) {
-            services.AddScoped<IMarioService, MarioService>();
-
+            services.AddSingleton<IMarioService, MarioService>();
             services.AddMvc();
         }
 
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
-
+            app.UseStaticFiles();
+            app.UseMvc();
             app.UseCors(policy => policy
                 .WithHeaders("*")
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .WithOrigins()
             );
-
-            app.UseStaticFiles();
-            app.UseMvc();
         }
     }
 }

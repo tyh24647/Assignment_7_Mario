@@ -1,4 +1,4 @@
-﻿var serverURL = "http://webprogrammingassignment7.azurewebsites.net/mario";
+﻿var serverURL = 'http://localhost:57294/api/MarioLevel'
 
 var marioActions = [
     "walk", "jump", "wait", "run"
@@ -9,19 +9,25 @@ var DEFAULT_BOX_SHADOW = '0px 2px 5px 2px rgba(0, 0, 0, 0.4)';
 var CENTER = 'center';
 var MIDDLE = 'middle';
 var RUN_IMG_URL = 'Images/mario_running.gif', WALK_IMG_URL = 'Images/mario_walking.gif';
-
+var marioAction = 'wait';
 var leftVal = 0;
 
 
-function applyMarioAction(imageTitle, movementAmt, transitionStr) {
+function startGame() {
+    moveMario();
+}
+
+
+function applyMarioAction(imageTitle, movementAmt, transitionStr, direction) {
     var mario = document.getElementById('mario');
     var mImg = document.getElementById('mario-image');
     mImg.setAttribute('src', imageTitle);
     
-    if (imageTitle == null || movementAmt == null) {
+    if (imageTitle == null || movementAmt == null || (direction != 'left'
+        && direction != 'right' && direction != 'top' && direction != 'bottom')) {
         return;
     } if (mario.style.left != 0 && mario.style.left.length >= 3) {
-        leftVal += leftVal += parseInt(mario.style.left.substr(0, leftVal.length - 2));
+        leftVal += parseInt(mario.style.left.substr(0, leftVal.length - 2));
     }
 
     var tmp = leftVal + movementAmt;
@@ -31,7 +37,8 @@ function applyMarioAction(imageTitle, movementAmt, transitionStr) {
 
 
 function moveMario() {
-    $.ajax(serverURL + "/" + generateRandomAction(), {
+    marioAction = generateRandomAction();
+    $.ajax(serverURL + "?marioAction=" + marioAction, {
         method: "GET",
         contentType: "application/json",
         success: handleDataChange
@@ -40,7 +47,7 @@ function moveMario() {
 
 
 function handleDataChange(data) {
-    document.getElementById('result').innerHTML = JSON.stringify(data);
+    //if (marioAction == '')
 }
 
 
@@ -68,16 +75,21 @@ function initMario() {
 }
 
 
-function startGame() {
-    moveMario();
+function jumpAction() {
+
+}
+
+
+function waitAction() {
+
 }
 
 
 function runAction() {
-    applyMarioAction(RUN_IMG_URL, 160, '0.25s linear');
+    applyMarioAction(RUN_IMG_URL, 160, '0.25s linear', 'left');
 }
 
 
 function walkAction() {
-    applyMarioAction(WALK_IMG_URL, 100, '0.75s linear');
+    applyMarioAction(WALK_IMG_URL, 100, '0.75s linear', 'left');
 }

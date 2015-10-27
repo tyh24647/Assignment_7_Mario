@@ -15,77 +15,27 @@ namespace Assignment_7_Mario.Controllers {
     [Route("api/[controller]")]
     public class MarioLevelController : Controller {
 
-        private static IMarioService marioService;
+        private IMarioService marioService;
 
-        string serverURL = "http://webprogrammingassignment7.azurewebsites.net/mario";
+        private const string EXTERNAL_SERVICE_ERROR = "ERROR: Could not read external service";
         
-        private RetryPolicy retryPolicy = new RetryPolicy(new DetectionStrategy(), 10);
 
-
-        [HttpGet("{rStr}")]
-        public async Task<string> Get(string rStr) {
-            
+        public MarioLevelController(IMarioService marioService) {
+            this.marioService = marioService;
         }
 
 
-        /*
-        // TODO: DO NOT PUT THIS IN THE CONTROLLER
-        // depend on an injection to get the string
-        public async Task<string> Get(int id) {
-            var request = WebRequest.Create(serverURL);
-            string responseStr = null;
-
-            try {
-                responseStr = await retryPolicy.ExecuteAsync(async () => {
-                    var response = await request.GetResponseAsync();
-                    var reader = new StreamReader(response.GetResponseStream());
-                    return await reader.ReadToEndAsync();
-                });
-            } catch (Exception) {
+        [HttpGet]
+        public async Task<string> Get([FromQuery]string marioAction) {
+            var responseStr = marioService.GenerateWebRequest(marioAction);
+            
+            if (responseStr.ToString() == EXTERNAL_SERVICE_ERROR) {
                 Response.StatusCode = (int)HttpStatusCode.ServiceUnavailable;
-                return "ERROR: Could not read external service";
+                return EXTERNAL_SERVICE_ERROR;
             }
 
-            return responseStr;
+            return await responseStr;
         }
-        */
-
-        /*
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody]string value) {
-            //
-        }
-
-
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value) {
-            //
-        }
-
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id) {
-            //
-        }
-        */
     }
 }
 
-
-
-
-
-
-/* PROBABLY UNNECESSARY...
-// GET: api/values
-[HttpGet]
-public IEnumerable<string> Get() {
-    // TODO: figure out what to return when called
-
-    return null;
-    //return new string[] { "value1", "value2" };
-}
-*/

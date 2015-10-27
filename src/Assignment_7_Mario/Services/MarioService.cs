@@ -4,6 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Net;
 using Assignment_7_Mario.Services;
+using Microsoft.Practices.TransientFaultHandling;
+using System.IO;
+using Microsoft.AspNet.Mvc;
+
 
 namespace Assignment_7_Mario.Services {
 
@@ -12,29 +16,26 @@ namespace Assignment_7_Mario.Services {
     */
     public class MarioService : IMarioService {
 
-        private const string WALK = "walk", JUMP = "jump", WAIT = "wait", RUN = "run";
+        private RetryPolicy retryPolicy = new RetryPolicy(new DetectionStrategy(), 10);
+
+        private string serverURL = "http://webprogrammingassignment7.azurewebsites.net/mario";
 
 
-        public WebRequest InitWebRequestFromInputStr(string rStr) {
-            if (!ValidRequestStr(rStr)) {
-                return null;
-            } else if (rStr == WALK) {
-                // TODO: Fill these in
-            } else if (rStr == JUMP) {
-                //
-            } else if (rStr == WAIT) {
-                //
-            } else {
+        public async Task<string> GenerateWebRequest(string marioAction) {
+            var request = WebRequest.Create(serverURL);
+            string responseStr = null;
 
+            try {
+                responseStr = await retryPolicy.ExecuteAsync(async () => {
+                    var response = await request.GetResponseAsync();
+                    var reader = new StreamReader(response.GetResponseStream());
+                    return await reader.ReadToEndAsync();
+                });
+            } catch (Exception) {
+                return "ERROR: Could not read external service";
             }
 
-            return null;
+            return responseStr;
         }
-
-
-        private bool ValidRequestStr(string rStr) {
-            return (rStr == WALK || rStr == JUMP || rStr == WAIT || rStr == RUN);
-        }
-
     }
 }

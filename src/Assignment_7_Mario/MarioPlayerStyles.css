@@ -86,3 +86,19 @@
     z-index: 25;
     position: fixed;
 }
+
+
+#jump {
+    bottom: 14px;
+    left: 225px;
+    z-index: 25;
+    position: fixed;
+}
+
+
+#wait {
+    bottom: 14px;
+    left: 325px;
+    z-index: 25;
+    position: fixed;
+}

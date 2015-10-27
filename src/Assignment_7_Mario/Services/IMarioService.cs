@@ -12,6 +12,6 @@ namespace Assignment_7_Mario.Services {
     * directly access or edit the data.
     */
     public interface IMarioService {
-       WebRequest InitWebRequestFromInputStr(string rStr);
+        Task<string> GenerateWebRequest(string marioAction);
     }
 }
