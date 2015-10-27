@@ -8,15 +8,26 @@ using System.Net;
 using System.IO;
 
 namespace Assignment_7_Mario.Controllers {
+
+    /*
+    * This class is the main controller for the mario game
+    */
+    [Route("api/[controller]")]
     public class MarioLevelController : Controller {
 
+        private static IMarioService marioService;
+
         string serverURL = "http://webprogrammingassignment7.azurewebsites.net/mario";
+        
+        private RetryPolicy retryPolicy = new RetryPolicy(new DetectionStrategy(), 10);
 
-        // TODO: See if this actually works or not--may need to re-do
-        private RetryPolicy retryPolicy = new RetryPolicy(new DetectionStrategy(), 5);
+
+        public async Task<string> Get(string rStr) {
+            
+        }
 
 
-        // GET: /<controller>/5
+        /*
         // TODO: DO NOT PUT THIS IN THE CONTROLLER
         // depend on an injection to get the string
         public async Task<string> Get(int id) {
@@ -36,13 +47,7 @@ namespace Assignment_7_Mario.Controllers {
 
             return responseStr;
         }
-
-
-        // GET: api/values
-        [HttpGet]
-        public IEnumerable<string> Get() {
-            return new string[] { "value1", "value2" };
-        }
+        */
 
 
         // POST api/values
@@ -66,3 +71,19 @@ namespace Assignment_7_Mario.Controllers {
         }
     }
 }
+
+
+
+
+
+
+/* PROBABLY UNNECESSARY...
+// GET: api/values
+[HttpGet]
+public IEnumerable<string> Get() {
+    // TODO: figure out what to return when called
+
+    return null;
+    //return new string[] { "value1", "value2" };
+}
+*/
