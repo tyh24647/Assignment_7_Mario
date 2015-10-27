@@ -10,18 +10,44 @@ var CENTER = 'center';
 var MIDDLE = 'middle';
 
 
-/** FOR DEBUGGING ONLY!!!! **/
-function walk() {
-    var mario = document.getElementById('mario');
-    mario.setAttribute('src', 'Images/mario_standing.png');
-    // TODO
-}
-/****************************/
-
-
-
 function startGame() {
     moveMario();
+}
+
+
+function run() {
+    var mario = document.getElementById('mario');
+    var mImg = document.getElementById('mario-image');
+    var leftVal = mario.style.left;
+
+    if (mario.style.left == 0) {
+        leftVal = 0 + 'px';
+    } else {
+        leftVal = leftVal.substr(0, leftVal.length - 2);
+    }
+
+    var tmp = leftVal + 160;
+
+    mImg.setAttribute('src', 'Images/mario_running.gif');
+    mario.style.left = tmp + 'px';
+    mImg.style.left = tmp + 'px';
+}
+
+
+function walk() {
+    var mario = document.getElementById('mario');
+    var mImg = document.getElementById('mario-image');
+    var leftVal = 0;
+
+    if (mario.style.left != 0 && mario.style.left.length >= 3) {
+        var tmpStr = mario.style.left;
+        leftVal = parseInt(mario.style.left.substr(0, leftVal.length - 2));
+    }
+
+    var tmp = leftVal + 120;
+    mImg.setAttribute('src', 'Images/mario_walking.gif');
+    mario.style.left = tmp + 'px';
+    mImg.style.left = tmp + 'px';
 }
 
 
@@ -37,8 +63,6 @@ function moveMario() {
 function handleDataChange(data) {
     document.getElementById('result').innerHTML = JSON.stringify(data);
 }
-
-
 
 
 function generateRandomAction() {
@@ -58,3 +82,8 @@ function initSky() {
     gameBckgd.setAttribute('src', 'Images/sky.png');
 }
 
+
+function initMario() {
+    var mario = document.getElementById('mario');
+    mario.setAttribute('src', '/Images/mario_standing.png');
+}

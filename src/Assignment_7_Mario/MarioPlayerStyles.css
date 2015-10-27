@@ -45,18 +45,23 @@
 
 #mario {
     position: absolute;
+    left: 0px;
     bottom: 100px;
     z-index: 10;
     height: 120px;
     width: 120px;
     z-index: 14;
+    transition: 0.75s linear;
 }
 
 
 #mario-image {
+    position: relative;
+    left: 0px;
     height: 120px;
     width: 120px;
     z-index: 15;
+    transition: 0.75s linear;
 }
 
 
@@ -77,8 +82,8 @@
 }
 
 #walk {
-    top: 14px;
-    left: 125px;
+    bottom: 14px;
+    left: 25px;
     z-index: 25;
     position: fixed;
 }

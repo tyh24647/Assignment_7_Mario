@@ -22,6 +22,7 @@ namespace Assignment_7_Mario.Controllers {
         private RetryPolicy retryPolicy = new RetryPolicy(new DetectionStrategy(), 10);
 
 
+        [HttpGet("{rStr}")]
         public async Task<string> Get(string rStr) {
             
         }
@@ -49,7 +50,7 @@ namespace Assignment_7_Mario.Controllers {
         }
         */
 
-
+        /*
         // POST api/values
         [HttpPost]
         public void Post([FromBody]string value) {
@@ -69,6 +70,7 @@ namespace Assignment_7_Mario.Controllers {
         public void Delete(int id) {
             //
         }
+        */
     }
 }
 
