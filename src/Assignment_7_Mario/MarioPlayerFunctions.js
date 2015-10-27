@@ -10,19 +10,6 @@ var CENTER = 'center';
 var MIDDLE = 'middle';
 
 
-var mainBody = document.getElementById('main-body');
-var levelDisplay = document.getElementById('level-display');
-var skyImage = document.getElementById('sky-image');
-var gameBckgd = document.getElementById('game-background');
-var bottomBricks = document.getElementById('bottom-bricks');
-var marioImg = document.getElementById('mario-image');
-var bContainer = document.getElementById('buttons-container');
-var buttons = document.getElementById('buttons');
-var footer = document.getElementById('footer');
-var fTxt = document.getElementById('footer-text');
-
-
-
 /** FOR DEBUGGING ONLY!!!! **/
 function walk() {
     var mario = document.getElementById('mario');
