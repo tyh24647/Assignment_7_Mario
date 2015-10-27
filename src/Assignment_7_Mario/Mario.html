@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Assignment 7 - Mario</title>
+    <link rel="stylesheet" type="text/css" href="MarioPlayerStyles.css" />
+    <script type="text/javascript" src="MarioPlayerFunctions.js"></script>
+</head>
+<body id="body">
+    <div id="top-bar">
+        <div id="top-background"></div>
+        <div id="top-accents"></div>
+        <div id="header-title">Mario: Server Edition</div>
+    </div>
+    <div id="main-body">
+        <div id="level-display">
+            <div id="sky-image">
+                <img id="game-background" src="Images/sky.png" />
+            </div>
+            <div id="mario">
+                <img id="mario-image" src="Images/mario_standing.png" />
+            </div>
+        </div>
+        <input type="button" id="start-button" value="Start Game" onclick="startGame()" />
+        
+
+        <!--TODO: DELETE THESE AFTER TESTING/DEBUGGING-->
+        <input type="button" id="walk" value="Walk (debug)" onclick="walkAction()" />
+        <input type="button" id="run" value="Run (debug)" onclick="runAction()" />
+        <!----------------------------------------------------------->
+
+
+        <div id="bottom-bricks">
+            <img id="bricks-image" />
+        </div>
+    </div>
+</body>
+</html>
