@@ -13,21 +13,6 @@ var RUN_IMG_URL = 'Images/mario_running.gif', WALK_IMG_URL = 'Images/mario_walki
 var leftVal = 0;
 
 
-function startGame() {
-    moveMario();
-}
-
-
-function runAction() {
-    applyMarioAction(RUN_IMG_URL, 160, '0.25s linear');
-}
-
-
-function walkAction() {
-    applyMarioAction(WALK_IMG_URL, 120, '0.75s linear');
-}
-
-
 function applyMarioAction(imageTitle, movementAmt, transitionStr) {
     var mario = document.getElementById('mario');
     var mImg = document.getElementById('mario-image');
@@ -82,3 +67,17 @@ function initMario() {
     mario.setAttribute('src', 'Images/mario_standing.png');
 }
 
+
+function startGame() {
+    moveMario();
+}
+
+
+function runAction() {
+    applyMarioAction(RUN_IMG_URL, 160, '0.25s linear');
+}
+
+
+function walkAction() {
+    applyMarioAction(WALK_IMG_URL, 100, '0.75s linear');
+}
