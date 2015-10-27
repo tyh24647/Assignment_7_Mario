@@ -4,10 +4,33 @@ var marioActions = [
     "walk", "jump", "wait", "run"
 ];
 
+var DEFAULT_BCKGD_COLOR = '#0F242A';
+var DEFAULT_BOX_SHADOW = '0px 2px 5px 2px rgba(0, 0, 0, 0.4)';
+var CENTER = 'center';
+var MIDDLE = 'middle';
 
-function initBodySettings() {
-    applyMainBodySettings();
+
+var mainBody = document.getElementById('main-body');
+var levelDisplay = document.getElementById('level-display');
+var skyImage = document.getElementById('sky-image');
+var gameBckgd = document.getElementById('game-background');
+var bottomBricks = document.getElementById('bottom-bricks');
+var marioImg = document.getElementById('mario-image');
+var bContainer = document.getElementById('buttons-container');
+var buttons = document.getElementById('buttons');
+var footer = document.getElementById('footer');
+var fTxt = document.getElementById('footer-text');
+
+
+
+/** FOR DEBUGGING ONLY!!!! **/
+function walk() {
+    var mario = document.getElementById('mario');
+    mario.setAttribute('src', 'Images/mario_standing.png');
+    // TODO
 }
+/****************************/
+
 
 
 function startGame() {
@@ -18,15 +41,21 @@ function startGame() {
 function moveMario() {
     $.ajax(serverURL + "/" + generateRandomAction(), {
         method: "GET",
-        contentType: "application/json"
-
-        // TODO: figure this shit out man
+        contentType: "application/json",
+        success: handleDataChange
     });
 }
 
 
+function handleDataChange(data) {
+    document.getElementById('result').innerHTML = JSON.stringify(data);
+}
+
+
+
+
 function generateRandomAction() {
-    var rand = Math.floor(Math.random() * 4);
+    var rand = Math.floor(Math.random() * marioActions.length);
     
     if (serverURL[rand] == null) {
         print("ERROR: Invalid index.\nPlease ensure that the random index" +
@@ -38,15 +67,7 @@ function generateRandomAction() {
 }
 
 
-function applyMainBodySettings() {
-    var mainBody = document.getElementById('main-body');
-    var mStyle = mainBody.style;
-
-    mStyle.width = '100%';
-    mStyle.height = '1000px';
-    mStyle.backgroundColor = 'darkgray';
-    mStyle.minHeight = '100%';
-    mStyle.minWidth = '100%';
-    mStyle.zIndex = '2';
+function initSky() {
+    gameBckgd.setAttribute('src', 'Images/sky.png');
 }
 
