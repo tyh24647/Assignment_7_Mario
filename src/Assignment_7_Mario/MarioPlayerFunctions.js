@@ -5,13 +5,17 @@ var marioActions = [
 ];
 
 
+function initBodySettings() {
+    applyMainBodySettings();
+}
+
+
 function startGame() {
     moveMario();
 }
 
 
 function moveMario() {
-    alert("TEST!!");
     $.ajax(serverURL + "/" + generateRandomAction(), {
         method: "GET",
         contentType: "application/json"
@@ -31,5 +35,18 @@ function generateRandomAction() {
     }
 
     return marioActions[rand];
+}
+
+
+function applyMainBodySettings() {
+    var mainBody = document.getElementById('main-body');
+    var mStyle = mainBody.style;
+
+    mStyle.width = '100%';
+    mStyle.height = '1000px';
+    mStyle.backgroundColor = 'darkgray';
+    mStyle.minHeight = '100%';
+    mStyle.minWidth = '100%';
+    mStyle.zIndex = '2';
 }
 
