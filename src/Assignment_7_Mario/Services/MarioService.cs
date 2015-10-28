@@ -7,21 +7,24 @@ using Assignment_7_Mario.Services;
 using Microsoft.Practices.TransientFaultHandling;
 using System.IO;
 using Microsoft.AspNet.Mvc;
+using System.Diagnostics;
 
 
 namespace Assignment_7_Mario.Services {
 
     /*
-    * This class allows for requests to be made to the mario server./
+    * This class allows for requests to be made to the mario server.
     */
     public class MarioService : IMarioService {
 
         private RetryPolicy retryPolicy = new RetryPolicy(new DetectionStrategy(), 10);
-
+        
         private string serverURL = "http://webprogrammingassignment7.azurewebsites.net/mario";
-
-        public async Task<string> GenerateWebRequest(string marioAction) {
-            var request = WebRequest.Create(serverURL);
+        
+        // TODO Rename this-- look at the assignment! They shouldhave no 
+        // idea that this is making a request
+        public async Task<string> GetAction(string marioAction) {
+            var request = WebRequest.Create(serverURL + '/' + marioAction);
             string responseStr = null;
 
             try {
@@ -31,9 +34,9 @@ namespace Assignment_7_Mario.Services {
                     return await reader.ReadToEndAsync();
                 });
             } catch (Exception) {
-                return "ERROR: Could not read external service";
+                return "ERROR";
             }
-
+            
             return responseStr;
         }
     }

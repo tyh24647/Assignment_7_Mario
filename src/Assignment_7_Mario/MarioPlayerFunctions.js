@@ -1,4 +1,4 @@
-﻿var serverURL = 'http://localhost:57294/api/MarioLevel'
+﻿var serverURL = "http://localhost:57294/api/MarioLevel";
 
 var marioActions = [
     "walk", "jump", "wait", "run"
@@ -6,22 +6,12 @@ var marioActions = [
 
 var DEFAULT_BCKGD_COLOR = '#0F242A';
 var DEFAULT_BOX_SHADOW = '0px 2px 5px 2px rgba(0, 0, 0, 0.4)';
-var END_OF_WINDOW = 10;
-var CENTER = 'center';
-var MIDDLE = 'middle';
-var RUN_IMG_URL = 'Images/mario_running.gif',
-    WALK_IMG_URL = 'Images/mario_walking.gif',
-    STAND_IMG_URL = 'Images/mario_standing.png',
-    JUMP_IMG_URL = 'Images/mario_jumping.png';
-var marioAction = 'wait';
-var leftVal = 0, currentPos = 1;
-var runResult = "Mario is running";
-var waitResult = "Mario is waiting";
-var jumpResult = "Mario is jumping";
-var walkResult = "Mario is walking";
+
+var currentPos = 0;
 
 
 function startGame() {
+    disableStartButton();
     moveMario();
 }
 
@@ -29,115 +19,105 @@ function startGame() {
 function applyMarioAction(imageTitle, movementAmt, transitionStr, direction) {
     var mario = document.getElementById('mario');
     var mImg = document.getElementById('mario-image');
-    var lDistance = mario.style.left;
     mImg.setAttribute('src', imageTitle);
 
-    if (imageTitle == null || movementAmt == null || (direction != 'left'
-        && direction != 'right' && direction != 'top' && direction != 'bottom')) {
+    if (imageTitle === null || (direction != 'left'
+        && direction !== 'right' && direction !== 'top' && direction !== 'bottom')) {
         return;
-    } if (lDistance != 0 && lDistance.length >= 3) {
-        leftVal += parseInt(lDistance.substr(0, leftVal.toString().length - 2));
     }
 
-    var tmp = leftVal + movementAmt;
+    currentPos += movementAmt;
     mario.style.transition = transitionStr;
-    mario.style.left = tmp + 'px';
+
+    if (direction == "left") {
+        mario.style.left = currentPos + 'px';
+    } else if (direction == "bottom") {
+        mario.style.bottom = currentPos + 'px';
+    } else if (direction == "top") {
+        mario.style.top = currentPos + 'px';
+    } else if (direction == "right") {
+        mario.style.right = currentPos + 'px';
+    }
+
+    divAttribute = currentPos + 'px';
 }
 
 
 function moveMario() {
     marioAction = generateRandomAction();
-    var jQueryURL = serverURL + "?marioAction" + marioAction;
+    var jQueryURL = serverURL + '?marioAction=' + marioAction;
+    var mario = document.getElementById('mario');
 
-    $.ajax(jQueryURL, {
-        method: "GET",
-        success: handleDataChange
-    });
+    // TODO: Change this... it isn't right
+    for (var i = 0; i < 10; i++) {
+        $.ajax(jQueryURL, {
+            method: "GET",
+            success: handleDataChange
+        });
+    }
 }
 
 
-function handleDataChange(data) {
-    var resultsContainer = document.getElementById('results');
+function handleDataChange(data, data2, data3) {
+    if (data == "ERROR") {
+        enableStartButton();
+        document.getElementById('results').textContent = 'Mario died :(';
+        return;
+    }
+
+    //TODO figure out how to handle errors and not display them
+    var imgURL = "", moveAmt = 0, transition = "", attribute = "";
+    var windowWidth = $(window).width();
 
     if (marioAction == 'walk') {
-        walkAction();
-        resultsContainer.textContent = walkResult;
+        imgURL = "Images/mario_walking.gif";
+        moveAmt = Math.round(windowWidth * 0.05);
+        transition = "0.75s linear";
+        attribute = "left";
     } else if (marioAction == 'run') {
-        runAction();
-        resultsContainer.textContent = runResult;
+        imgURL = "Images/mario_running.gif";
+        moveAmt = Math.round(windowWidth * 0.1);
+        transition = "0.25s linear";
+        attribute = "left";
     } else if (marioAction == 'wait') {
-        waitAction();
-        resultsContainer.textContent = waitResult;
+        imgURL = "Images/mario_standing.png";
+        moveAmt = null;
+        transition = null;
+        attribute = null;
     } else if (marioAction == 'jump') {
-        jumpAction();
-        resultsContainer.textContent = jumpResult;
-    } else {
-        resultsContainer.textContent = "ERROR: Could not perform the requested action";
+
+        // MASSIVE TODO: Fix this shit
+        imgURL = "Images/mario_jumping.png";
+        moveAmt = Math.round(windowWidth * 0.05);
+        //moveAmt = 600;
+        transition = "0.25s linear";
+        //attribute = "top";
+        attribute = "left";
     }
+
+    applyMarioAction(imgURL, moveAmt, transition, attribute);
+
+    var resultsDiv = document.getElementById('results');
+    resultsDiv.textContent = data;
+    //var jsonString = JSON.stringify(data);
+    //resultsDiv.textContent = jsonString;
 }
 
 
 function generateRandomAction() {
-    var rand = Math.floor(Math.random() * marioActions.length);
-
-    if (serverURL[rand] == null) {
-        print("ERROR: Invalid index.\nPlease ensure that the random index" +
-            "was generated correctly in order to perform the requested action.");
-        return;
-    }
-
-    return marioActions[rand];
+    return marioActions[Math.floor(Math.random() * marioActions.length)];
 }
 
 
-function initSky() {
-    gameBckgd.setAttribute('src', 'Images/sky.png');
-
+function disableStartButton() {
+    var startButton = document.getElementById('start-button');
+    startButton.disabled = true;
+    startButton.style.visibility = 'hidden';
 }
 
 
-function initMario() {
-    var mario = document.getElementById('mario');
-    mario.setAttribute('src', STAND_IMG_URL);
-}
-
-
-function actionIsValid() {
-    return (currentPos < END_OF_WINDOW);
-}
-
-
-function jumpAction() {
-    if (actionIsValid()) {
-        var moveAmt = document.getElementById('body').style.width * 0.05;
-        //applyMarioAction(JUMP_IMG_URL, moveAmt, ')
-    }
-}
-
-
-function waitAction() {
-    if (actionIsValid()) {
-        applyMarioAction(STAND_IMG_URL, null, null, null);
-    }
-}
-
-// TODO move according to percentage instead of specific values
-function runAction() {
-    if (actionIsValid()) {
-        var moveAmt = document.getElementById('body').style.width * 0.1;
-        applyMarioAction(RUN_IMG_URL, 160, '0.25s linear', 'left');
-        //applyMarioAction(RUN_IMG_URL, moveAmt, '0.25s linear', 'left');
-        currentPos++;
-    }
-}
-
-
-function walkAction() {
-    if (actionIsValid()) {
-        var moveAmt = document.getElementById('body').style.width * 0.05;
-        applyMarioAction(WALK_IMG_URL, 100, '0.75s linear', 'left');
-        //applyMarioAction(WALK_IMG_URL, moveAmt, '0.75s linear', 'left');
-        currentPos++;
-
-    }
+function enableStartButton() {
+    var startButton = document.getElementById('start-button');
+    startButton.disabled = false;
+    startButton.style.visibility = "visible";
 }

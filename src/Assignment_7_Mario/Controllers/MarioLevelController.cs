@@ -23,7 +23,7 @@ namespace Assignment_7_Mario.Controllers {
 
         [HttpGet]
         public async Task<string> Get([FromQuery]string marioAction) {
-            var responseStr = marioService.GenerateWebRequest(marioAction);
+            var responseStr = marioService.GetAction(marioAction);
             
             if (responseStr.ToString() == EXTERNAL_SERVICE_ERROR) {
                 Response.StatusCode = (int)HttpStatusCode.ServiceUnavailable;

@@ -9,9 +9,7 @@
 </head>
 <body id="body">
     <div id="top-bar">
-        <div id="top-background"></div>
-        <div id="top-accents"></div>
-        <div id="header-title">Mario: Server Edition</div>
+        <div id="header-title">Ty's Mario Server</div>
     </div>
     <div id="main-body">
         <div id="results-container">
@@ -19,28 +17,16 @@
             <div id="results"></div>
         </div>
         <div id="level-display">
-            <div id="sky-image">
-                <img id="game-background" src="Images/sky.png" />
-            </div>
+            <img id="game-background" src="Images/sky.png" />
+            <img id="flagpole" src="Images/flagpole.png" />
             <div id="mario">
                 <img id="mario-image" src="Images/mario_standing.png" />
             </div>
         </div>
         <input type="button" id="start-button" value="Start Game" onclick="startGame()" />
-        
-
-        <!--TODO: DELETE THESE AFTER TESTING/DEBUGGING-->
-        <input type="button" id="walk" value="Walk (debug)" onclick="walkAction()" />
-        <input type="button" id="run" value="Run (debug)" onclick="runAction()" />
-        <input type="button" id="wait" value="Wait (debug)" onclick="waitAction()" />
-        <input type="button" id="jump" value="Jump (debug)" onclick="jumpAction()" />
-        <!---->
-
-
         <div id="bottom-bricks">
             <img id="bricks-image" />
         </div>
-        
     </div>
 </body>
 </html>
