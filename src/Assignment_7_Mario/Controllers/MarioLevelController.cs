@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNet.Mvc;
-using Microsoft.Practices.TransientFaultHandling;
 using Assignment_7_Mario.Services;
 using System.Net;
-using System.IO;
 
 namespace Assignment_7_Mario.Controllers {
 

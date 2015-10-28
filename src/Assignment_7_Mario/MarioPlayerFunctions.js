@@ -9,8 +9,10 @@ var DEFAULT_BOX_SHADOW = '0px 2px 5px 2px rgba(0, 0, 0, 0.4)';
 var END_OF_WINDOW = 10;
 var CENTER = 'center';
 var MIDDLE = 'middle';
-var RUN_IMG_URL = 'Images/mario_running.gif', WALK_IMG_URL = 'Images/mario_walking.gif',
-    STAND_IMG_URL = 'Images/mario_standing.png';
+var RUN_IMG_URL = 'Images/mario_running.gif',
+    WALK_IMG_URL = 'Images/mario_walking.gif',
+    STAND_IMG_URL = 'Images/mario_standing.png',
+    JUMP_IMG_URL = 'Images/mario_jumping.png';
 var marioAction = 'wait';
 var leftVal = 0, currentPos = 1;
 var runResult = "Mario is running";
@@ -27,14 +29,14 @@ function startGame() {
 function applyMarioAction(imageTitle, movementAmt, transitionStr, direction) {
     var mario = document.getElementById('mario');
     var mImg = document.getElementById('mario-image');
+    var lDistance = mario.style.left;
     mImg.setAttribute('src', imageTitle);
-
 
     if (imageTitle == null || movementAmt == null || (direction != 'left'
         && direction != 'right' && direction != 'top' && direction != 'bottom')) {
         return;
-    } if (mario.style.left != 0 && mario.style.left.length >= 3) {
-        leftVal += parseInt(mario.style.left.substr(0, leftVal.length - 2));
+    } if (lDistance != 0 && lDistance.length >= 3) {
+        leftVal += parseInt(lDistance.substr(0, leftVal.toString().length - 2));
     }
 
     var tmp = leftVal + movementAmt;
@@ -107,21 +109,24 @@ function actionIsValid() {
 
 function jumpAction() {
     if (actionIsValid()) {
-        // TODO
+        var moveAmt = document.getElementById('body').style.width * 0.05;
+        //applyMarioAction(JUMP_IMG_URL, moveAmt, ')
     }
 }
 
 
 function waitAction() {
     if (actionIsValid()) {
-        // TODO
+        applyMarioAction(STAND_IMG_URL, null, null, null);
     }
 }
 
 // TODO move according to percentage instead of specific values
 function runAction() {
     if (actionIsValid()) {
+        var moveAmt = document.getElementById('body').style.width * 0.1;
         applyMarioAction(RUN_IMG_URL, 160, '0.25s linear', 'left');
+        //applyMarioAction(RUN_IMG_URL, moveAmt, '0.25s linear', 'left');
         currentPos++;
     }
 }
@@ -129,7 +134,9 @@ function runAction() {
 
 function walkAction() {
     if (actionIsValid()) {
+        var moveAmt = document.getElementById('body').style.width * 0.05;
         applyMarioAction(WALK_IMG_URL, 100, '0.75s linear', 'left');
+        //applyMarioAction(WALK_IMG_URL, moveAmt, '0.75s linear', 'left');
         currentPos++;
 
     }
