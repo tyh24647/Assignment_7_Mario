@@ -20,7 +20,6 @@ namespace Assignment_7_Mario.Services {
 
         private string serverURL = "http://webprogrammingassignment7.azurewebsites.net/mario";
 
-
         public async Task<string> GenerateWebRequest(string marioAction) {
             var request = WebRequest.Create(serverURL);
             string responseStr = null;

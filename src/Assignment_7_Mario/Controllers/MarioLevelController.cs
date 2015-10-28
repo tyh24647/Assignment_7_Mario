@@ -15,9 +15,9 @@ namespace Assignment_7_Mario.Controllers {
     [Route("api/[controller]")]
     public class MarioLevelController : Controller {
 
-        public IMarioService marioService;
+        private IMarioService marioService;
 
-        private const string EXTERNAL_SERVICE_ERROR = "ERROR: Could not read " + "external service";
+        private const string EXTERNAL_SERVICE_ERROR = "ERROR: Could not read external service";
         
 
         public MarioLevelController(IMarioService marioService) {

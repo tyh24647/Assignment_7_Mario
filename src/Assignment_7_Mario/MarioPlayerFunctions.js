@@ -9,9 +9,14 @@ var DEFAULT_BOX_SHADOW = '0px 2px 5px 2px rgba(0, 0, 0, 0.4)';
 var END_OF_WINDOW = 10;
 var CENTER = 'center';
 var MIDDLE = 'middle';
-var RUN_IMG_URL = 'Images/mario_running.gif', WALK_IMG_URL = 'Images/mario_walking.gif';
+var RUN_IMG_URL = 'Images/mario_running.gif', WALK_IMG_URL = 'Images/mario_walking.gif',
+    STAND_IMG_URL = 'Images/mario_standing.png';
 var marioAction = 'wait';
 var leftVal = 0, currentPos = 1;
+var runResult = "Mario is running";
+var waitResult = "Mario is waiting";
+var jumpResult = "Mario is jumping";
+var walkResult = "Mario is walking";
 
 
 function startGame() {
@@ -23,7 +28,8 @@ function applyMarioAction(imageTitle, movementAmt, transitionStr, direction) {
     var mario = document.getElementById('mario');
     var mImg = document.getElementById('mario-image');
     mImg.setAttribute('src', imageTitle);
-    
+
+
     if (imageTitle == null || movementAmt == null || (direction != 'left'
         && direction != 'right' && direction != 'top' && direction != 'bottom')) {
         return;
@@ -39,30 +45,39 @@ function applyMarioAction(imageTitle, movementAmt, transitionStr, direction) {
 
 function moveMario() {
     marioAction = generateRandomAction();
-    $.ajax(serverURL + "?marioAction=" + marioAction, {
+    var jQueryURL = serverURL + "?marioAction" + marioAction;
+
+    $.ajax(jQueryURL, {
         method: "GET",
-        contentType: "application/json",
         success: handleDataChange
     });
 }
 
-// TODO move according to percentage instead of specific values
+
 function handleDataChange(data) {
+    var resultsContainer = document.getElementById('results');
+
     if (marioAction == 'walk') {
         walkAction();
+        resultsContainer.textContent = walkResult;
     } else if (marioAction == 'run') {
         runAction();
+        resultsContainer.textContent = runResult;
     } else if (marioAction == 'wait') {
         waitAction();
+        resultsContainer.textContent = waitResult;
     } else if (marioAction == 'jump') {
         jumpAction();
+        resultsContainer.textContent = jumpResult;
+    } else {
+        resultsContainer.textContent = "ERROR: Could not perform the requested action";
     }
 }
 
 
 function generateRandomAction() {
     var rand = Math.floor(Math.random() * marioActions.length);
-    
+
     if (serverURL[rand] == null) {
         print("ERROR: Invalid index.\nPlease ensure that the random index" +
             "was generated correctly in order to perform the requested action.");
@@ -75,12 +90,13 @@ function generateRandomAction() {
 
 function initSky() {
     gameBckgd.setAttribute('src', 'Images/sky.png');
+
 }
 
 
 function initMario() {
     var mario = document.getElementById('mario');
-    mario.setAttribute('src', 'Images/mario_standing.png');
+    mario.setAttribute('src', STAND_IMG_URL);
 }
 
 
@@ -102,7 +118,7 @@ function waitAction() {
     }
 }
 
-
+// TODO move according to percentage instead of specific values
 function runAction() {
     if (actionIsValid()) {
         applyMarioAction(RUN_IMG_URL, 160, '0.25s linear', 'left');
@@ -115,5 +131,6 @@ function walkAction() {
     if (actionIsValid()) {
         applyMarioAction(WALK_IMG_URL, 100, '0.75s linear', 'left');
         currentPos++;
+
     }
 }

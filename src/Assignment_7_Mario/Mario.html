@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <title>Assignment 7 - Mario</title>
     <link rel="stylesheet" type="text/css" href="MarioPlayerStyles.css" />
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript" src="MarioPlayerFunctions.js"></script>
 </head>
 <body id="body">
@@ -13,6 +14,10 @@
         <div id="header-title">Mario: Server Edition</div>
     </div>
     <div id="main-body">
+        <div id="results-container">
+            <div id="current-action">Current Action:</div>
+            <div id="results"></div>
+        </div>
         <div id="level-display">
             <div id="sky-image">
                 <img id="game-background" src="Images/sky.png" />
@@ -35,6 +40,7 @@
         <div id="bottom-bricks">
             <img id="bricks-image" />
         </div>
+        
     </div>
 </body>
 </html>
