@@ -65,7 +65,6 @@ function handleDataChange(data, data2, data3) {
         return;
     }
 
-    //TODO figure out how to handle errors and not display them
     var imgURL = "", moveAmt = 0, transition = "", attribute = "";
     var windowWidth = $(window).width();
 
