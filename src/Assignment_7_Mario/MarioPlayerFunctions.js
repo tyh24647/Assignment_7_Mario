@@ -21,7 +21,7 @@ function applyMarioAction(imageTitle, movementAmt, transitionStr, direction) {
     var mImg = document.getElementById('mario-image');
     mImg.setAttribute('src', imageTitle);
 
-    if (imageTitle === null || (direction != 'left'
+    if (imageTitle === null || (direction !== 'left'
         && direction !== 'right' && direction !== 'top' && direction !== 'bottom')) {
         return;
     }
@@ -98,8 +98,6 @@ function handleDataChange(data, data2, data3) {
 
     var resultsDiv = document.getElementById('results');
     resultsDiv.textContent = data;
-    //var jsonString = JSON.stringify(data);
-    //resultsDiv.textContent = jsonString;
 }
 
 
