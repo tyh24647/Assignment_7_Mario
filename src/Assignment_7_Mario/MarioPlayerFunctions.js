@@ -97,6 +97,10 @@ function applyMarioAction(imageTitle, movementAmt, transitionStr, direction) {
     } else if (direction == "right") {
         mario.style.right = currentPos + 'px';
     }
+
+    if (continueWalking && currentPos < $(window).width()) {
+        moveMario();
+    }
 }
 
 
