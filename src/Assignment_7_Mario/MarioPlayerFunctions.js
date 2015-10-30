@@ -80,10 +80,12 @@ function applyMarioAction(imageTitle, movementAmt, transitionStr, direction) {
     var mImg = document.getElementById('mario-image');
     mImg.setAttribute('src', imageTitle);
 
-    if (imageTitle === null || (direction !== 'left'
-        && direction !== 'right' && direction !== 'top' && direction !== 'bottom')) {
+    /*
+    if (imageTitle == null || (direction != 'left'
+        && direction != 'right' && direction != 'top' && direction != 'bottom')) {
         return;
     }
+    */
 
     currentPos += movementAmt;
     mario.style.transition = transitionStr;
@@ -98,7 +100,7 @@ function applyMarioAction(imageTitle, movementAmt, transitionStr, direction) {
         mario.style.right = currentPos + 'px';
     }
 
-    if (continueWalking && currentPos < $(window).width()) {
+    if (continueWalking && Math.floor(currentPos) < $(window).width()) {
         moveMario();
     }
 }
