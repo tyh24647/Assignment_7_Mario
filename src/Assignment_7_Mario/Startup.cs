@@ -7,10 +7,12 @@ namespace Assignment_7_Mario {
     public class Startup {
         public Startup(IHostingEnvironment env) { }
 
+
         public void ConfigureServices(IServiceCollection services) {
             services.AddSingleton<IMarioService, MarioService>();
             services.AddMvc();
         }
+
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env) {
             app.UseCors(policy => policy

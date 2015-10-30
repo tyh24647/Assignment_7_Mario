@@ -14,9 +14,8 @@ namespace Assignment_7_Mario.Services {
 
         private RetryPolicy retryPolicy = new RetryPolicy(new DetectionStrategy(), 10);
 
-        private string serverURL = "http://webprogrammingassignment7.azurewebsites.net/mario";
-        
-
+        //private string serverURL = "http://webprogrammingassignment7.azurewebsites.net/mario";
+        private string serverURL = "http://localhost:54921/Mario";
         private const int SERVICE_UNAVAILABLE = 503;
         
 
@@ -31,7 +30,6 @@ namespace Assignment_7_Mario.Services {
                     return await reader.ReadToEndAsync();
                 });
             } catch (Exception e) {
-                
                 var exception = e as WebException;
                 var statusCode = (int)exception.Status;
 

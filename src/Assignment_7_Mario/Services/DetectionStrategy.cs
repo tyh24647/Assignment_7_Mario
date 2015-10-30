@@ -9,9 +9,6 @@ namespace Assignment_7_Mario.Services {
     * be implemented in the controller class in the retry policy
     */
     public class DetectionStrategy : ITransientErrorDetectionStrategy {
-
-
-        // Checks for transient error
         public bool IsTransient(Exception ex) {
             var webExcepton = ex as WebException;
 

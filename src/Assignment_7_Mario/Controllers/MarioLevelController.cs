@@ -10,9 +10,7 @@ namespace Assignment_7_Mario.Controllers {
     */
     [Route("api/[controller]")]
     public class MarioLevelController : Controller {
-
         private IMarioService marioService;
-
         private const string EXTERNAL_SERVICE_ERROR = "ERROR";
         
 
@@ -27,7 +25,6 @@ namespace Assignment_7_Mario.Controllers {
             
             if (responseStr.ToString() == EXTERNAL_SERVICE_ERROR) {
                 Response.StatusCode = (int)HttpStatusCode.ServiceUnavailable;
-                //return EXTERNAL_SERVICE_ERROR;
             }
 
             return await responseStr;

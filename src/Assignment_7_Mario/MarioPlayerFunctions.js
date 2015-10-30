@@ -1,18 +1,10 @@
 ﻿var serverURL = "http://localhost:57294/api/MarioLevel";
-
-var marioActions = [
-    "walk", "jump", "wait", "run"
-];
-
-var DEFAULT_BCKGD_COLOR = '#0F242A';
-var DEFAULT_BOX_SHADOW = '0px 2px 5px 2px rgba(0, 0, 0, 0.4)';
-
+var marioActions = ["walk", "jump", "wait", "run"];
 var currentPos = 0;
 var continueWalking = true;
 
 
 function startGame() {
-    continueWalking = true;
     disableStartButton();
     moveMario();
 }
@@ -21,8 +13,6 @@ function startGame() {
 function moveMario() {
     marioAction = generateRandomAction();
     var jQueryURL = serverURL + '?marioAction=' + marioAction;
-    var mario = document.getElementById('mario');
-    var windowWidth = $(window).width();
 
     if (continueWalking) {
         $.ajax(jQueryURL, {
@@ -34,17 +24,19 @@ function moveMario() {
 
 
 function handleDataChange(data, data2, data3) {
+    var windowWidth = $(window).width();
+    var resultsDiv = document.getElementById('results');
+    var imgURL = "";
+    var moveAmt = 0;
+    var transition = "";
+    var attribute = "";
+
     if (data == "ERROR") {
         enableStartButton();
         document.getElementById('results').textContent = 'Mario died :(';
         continueWalking = false;
         return;
-    }
-
-    var imgURL = "", moveAmt = 0, transition = "", attribute = "";
-    var windowWidth = $(window).width();
-
-    if (marioAction == 'walk') {
+    } else if (marioAction == 'walk') {
         imgURL = "Images/mario_walking.gif";
         moveAmt = windowWidth * 0.05;
         transition = "0.75s linear";
@@ -67,10 +59,6 @@ function handleDataChange(data, data2, data3) {
     }
 
     applyMarioAction(imgURL, moveAmt, transition, attribute);
-
-    console.log("> Current position: \'" + currentPos + "\'\n> Window width: " + windowWidth + "\'");
-
-    var resultsDiv = document.getElementById('results');
     resultsDiv.textContent = JSON.parse(data).Message;
 }
 
@@ -79,14 +67,6 @@ function applyMarioAction(imageTitle, movementAmt, transitionStr, direction) {
     var mario = document.getElementById('mario');
     var mImg = document.getElementById('mario-image');
     mImg.setAttribute('src', imageTitle);
-
-    /*
-    if (imageTitle == null || (direction != 'left'
-        && direction != 'right' && direction != 'top' && direction != 'bottom')) {
-        return;
-    }
-    */
-
     currentPos += movementAmt;
     mario.style.transition = transitionStr;
 
@@ -96,11 +76,7 @@ function applyMarioAction(imageTitle, movementAmt, transitionStr, direction) {
         mario.style.bottom = currentPos + 'px';
     } else if (direction == "top") {
         mario.style.top = currentPos + 'px';
-    } else if (direction == "right") {
-        mario.style.right = currentPos + 'px';
-    }
-
-    if (continueWalking && Math.floor(currentPos) < $(window).width()) {
+    } if (continueWalking && Math.floor(currentPos) < $(window).width()) {
         moveMario();
     }
 }
